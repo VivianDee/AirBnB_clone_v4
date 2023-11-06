@@ -1,31 +1,16 @@
 $(document).ready(function() {
+    const checkedBoxes = {};
 
-	checkedBoxes = [];
+    $('input[type="checkbox"]').change(function() {
+        const amenityId = $(this).data('id'); 
 
-	$('input[type=checked]').change( function() {
-		if (this.checked) {
-                        checkedBoxes.push($(this).attr('data-id'));
-	        }
-        	else {
-			const idx = checkedBoxes.indexOf($(this).attr('data-id'));
-		        checkedBoxes.pop(idx);
-	        }
-	});
+        if ($(this).prop("checked")) {
+            checkedBoxes[amenityId] = $(this).data('name');
+        } else {
+                delete checkedBoxes[amenityId]; 
+        }
 
-	$('div.amenities h4').text(checkedBoxes.join(', '));
-=======
-$(document).ready(function () {
-  const dict = {};
-  const $amenitiesCheck = $('input[type=checkbox]');
-  const $selectedAmenities = $('div.amenities h4');
-
-  $amenitiesCheck.click(function () {
-    if ($(this).is(':checked')) {
-      dict[$(this).data('id')] = $(this).data('name');
-      $selectedAmenities.text(Object.values(dict).join(', '));
-    } else if ($(this).is(':not(:checked)')) {
-      delete dict[$(this).data('id')];
-      $selectedAmenities.text(Object.values(dict).join(', '));
-    }
-  });
+        $('div.amenities h4').text(Object.values(checkedBoxes).join(', '));
+    });
 });
+
